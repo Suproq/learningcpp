@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Начало ООП</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet"
+      href="prism.css">
+    <script src="../../scripts/prism.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>
+        <ul class="headbut">
+          <li><a href="../../index.html"><div>Главная</div></a></li>
+          <li><a class="active" href="../learns.html"><div>Уроки</div></a></li>
+          <li><a href="../tasks.html"><div>Задачи</div></a></li>
+          <li><a href="../about.html"><div>О нас</div></a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <div style="padding: 1% 3%;">
+            <div class="upbut">
+                <a style="float: left;" href="9.html">Назад</a>
+                <a style="margin-left: auto;" href="11.html">Следующий урок</a>
+            </div>
+            <h1>Урок 10: Начало ООП(объектно-ориентированное программирование)</h1>
+            <p>Весь реальный мир состоит из объектов. Города состоят из районов, в каждом районе есть свои названия улиц, на каждой улице находятся жилые дома, которые также состоят из объектов.</p>
+            <p>Практически любой материальный предмет можно представить в виде совокупности объектов, из которых он состоит. Допустим, что нам нужно написать программу для учета успеваемости студентов. Можно представить группу студентов, как класс языка C++. Назовем его Students.</p>
+            <pre class="line-numbers"><code class="language-clike">class Students {
+    // Имя студента
+    std::string name;
+    // Фамилия
+    std::string last_name;
+    // Пять промежуточных оценок студента
+    int scores[5];
+    // Итоговая оценка за семестр
+    float average_ball;
+};</code></pre>
+    <p>Классы в программировании состоят из свойств и методов. Свойства — это любые данные, которыми можно характеризовать объект класса. В нашем случае, объектом класса является студент, а его свойствами — имя, фамилия, оценки и средний балл.</p>
+    <p>У каждого студента есть имя — name и фамилия last_name . Также, у него есть промежуточные оценки за весь семестр. Эти оценки мы будем записывать в целочисленный массив из пяти элементов. После того, как все пять оценок будут проставлены, определим средний балл успеваемости студента за весь семестр — свойство average_ball.</p>
+    <p>Методы — это функции, которые могут выполнять какие-либо действия над данными (свойствами) класса. Добавим в наш класс функцию calculate_average_ball(), которая будет определять средний балл успеваемости ученика.</p>
+    <ul>
+        <li>Методы класса — это его функции.</li>
+        <li>Свойства класса — его переменные.</li>
+    </ul>
+    <pre class="line-numbers"><code class="language-clike">class Students {
+    public:
+        // Функция, считающая средний балл
+        void calculate_average_ball()
+        {
+            int sum = 0; // Сумма всех оценок
+            for (int i = 0; i < 5; ++i) {
+                sum += scores[i];
+            }
+            // считаем среднее арифметическое
+            average_ball = sum / 5.0;
+        }
+
+        // Имя студента
+        std::string name;
+        // Фамилия
+        std::string last_name;
+        // Пять промежуточных оценок студента
+        int scores[5];
+
+    private:
+        // Итоговая оценка за семестр
+        float average_ball;
+};</code></pre>
+    <p>Функция calculate_average_ball() просто делит сумму всех промежуточных оценок на их количество.</p>
+    <p>Все свойства и методы классов имеют права доступа. По умолчанию, все содержимое класса является доступным для чтения и записи только для него самого. Для того, чтобы разрешить доступ к данным класса извне, используют модификатор доступа public. Все функции и переменные, которые находятся после модификатора public, становятся доступными из всех частей программы.</p>
+    <p>Закрытые данные класса размещаются после модификатора доступа private. Если отсутствует модификатор public, то все функции и переменные, по умолчанию являются закрытыми (как в первом примере).</p>
+    <p>Обычно, приватными делают все свойства класса, а публичными — его методы. Все действия с закрытыми свойствами класса реализуются через его методы. Рассмотрим следующий код.</p>
+    <pre class="line-numbers"><code class="language-clike">class Students {
+    public:
+        // Установка среднего балла
+        void set_average_ball(float ball)
+        {
+            average_ball = ball;
+        }
+        // Получение среднего балла
+        float get_average_ball()
+        {
+            return average_ball;
+        }
+        std::string name;
+        std::string last_name;
+        int scores[5];
+
+    private:
+        float average_ball;
+};</code></pre>
+    <p>Мы не можем напрямую обращаться к закрытым данными класса. Работать с этими данными можно только посредством методов этого класса. В примере выше, мы используем функцию get_average_ball() для получения средней оценки студента, и set_average_ball() для выставления этой оценки.</p>
+    <p>Функция set_average_ball() принимает средний балл в качестве параметра и присваивает его значение закрытой переменной average_ball. Функция get_average_ball() просто возвращает значение этой переменной.</p>
+    <p>Создадим программу, которая будет заниматься учетом успеваемости студентов в группе. Создайте заголовочный файл students.h, в котором будет находиться класс Students.</p>
+    <pre class="line-numbers"><code class="language-clike">/* students.h */
+#include &lt;string>
+
+class Students {
+    public:
+        // Установка имени студента
+        void set_name(std::string student_name)
+        {
+            name = student_name;
+        }
+        // Получение имени студента
+        std::string get_name()
+        {
+            return name;
+        }
+        // Установка фамилии студента
+        void set_last_name(std::string student_last_name)
+        {
+            last_name = student_last_name;
+        }
+        // Получение фамилии студента
+        std::string get_last_name()
+        {
+            return last_name;
+        }
+        // Установка промежуточных оценок
+        void set_scores(int student_scores[])
+        {
+            for (int i = 0; i < 5; ++i) {
+                scores[i] = student_scores[i];
+            }
+        }
+        // Установка среднего балла
+        void set_average_ball(float ball)
+        {
+            average_ball = ball;
+        }
+        // Получение среднего балла
+        float get_average_ball()
+        {
+            return average_ball;
+        }
+
+    private:
+        // Промежуточные оценки
+        int scores[5];
+        // Средний балл
+        float average_ball; 
+        // Имя
+        std::string name;
+        // Фамилия
+        std::string last_name;
+};</code></pre>
+    <p>Мы добавили в наш класс новые методы, а также сделали приватными все его свойства. Функция set_name() сохраняет имя студента в переменной name, а get_name() возвращает значение этой переменной. Принцип работы функций set_last_name() и get_last_name() аналогичен.</p>
+    <p>Функция set_scores() принимает массив с промежуточными оценками и сохраняет их в приватную переменную int scores[5].</p>
+    <p>Теперь создайте файл main.cpp со следующим содержимым.</p>
+    <pre class="line-numbers"><code class="language-clike">/* main.cpp */
+#include &lt;iostream>
+#include "students.h"
+
+int main()
+{
+    // Создание объекта класса Student
+    Students student;
+
+    std::string name;
+    std::string last_name;
+
+    // Ввод имени с клавиатуры
+    std::cout << "Name: ";
+    getline(std::cin, name);
+
+    // Ввод фамилии
+    std::cout << "Last name: ";
+    getline(std::cin, last_name);
+
+    // Сохранение имени и фамилии в объект класса Students
+    student.set_name(name);
+    student.set_last_name(last_name);
+
+    // Оценки
+    int scores[5];
+    // Сумма всех оценок
+    int sum = 0;
+
+    // Ввод промежуточных оценок 
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Score " << i+1 << ": ";
+        std::cin >> scores[i];
+        // суммирование
+        sum += scores[i];
+    }
+
+    // Сохраняем промежуточные оценки в объект класса Student
+    student.set_scores(scores);
+    // Считаем средний балл
+    float average_ball = sum / 5.0;
+    // Сохраняем средний балл в объект класса Students
+    student.set_average_ball(average_ball);
+    // Выводим данные по студенту
+    std::cout << "Average ball for " << student.get_name() << " "
+         << student.get_last_name() << " is "
+         << student.get_average_ball() << std::endl;
+
+    return 0;
+}</code></pre>
+    <p>В самом начале программы создается объект класса Students. Дело в том, что сам класс является только описанием его объекта. Класс Students является описанием любого из студентов, у которого есть имя, фамилия и возможность получения оценок.</p>
+    <p>Объект класса Students характеризует конкретного студента. Если мы захотим выставить оценки всем ученикам в группе, то будем создавать новый объект для каждого из них. Использование классов очень хорошо подходит для описания объектов реального мира.</p>
+    <p>После создания объекта student, мы вводим с клавиатуры фамилию, имя и промежуточные оценки для конкретного ученика. Пускай это будет Вася Пупкин, у которого есть пять оценок за семестр — две тройки, две четверки и одна пятерка.</p>
+    <p>Введенные данные мы передаем set-функциям, которые присваивают их закрытым переменным класса. После того, как были введены промежуточные оценки, мы высчитываем средний балл на основе этих оценок, а затем сохраняем это значение в закрытом свойстве average_ball, с помощью функции set_average_ball().</p>
+    <p>Скомпилируйте и запустите программу.</p>
+    <p>Вынесем реализацию всех методов класса в отдельный файл students.cpp.</p>
+    <pre class="line-numbers"><code class="language-clike">/* students.cpp */
+#include &lt;string>
+#include "students.h"
+
+// Установка имени студента
+void Students::set_name(std::string student_name)
+{
+    Students::name = student_name;
+}
+
+// Получение имени студента
+std::string Students::get_name()
+{
+    return Students::name;
+}
+
+// Установка фамилии студента
+void Students::set_last_name(std::string student_last_name)
+{
+    Students::last_name = student_last_name;
+}
+
+// Получение фамилии студента
+std::string Students::get_last_name()
+{
+    return Students::last_name;
+}
+
+// Установка промежуточных оценок
+void Students::set_scores(int scores[])
+{
+    for (int i = 0; i < 5; ++i) {
+        Students::scores[i] = scores[i];
+    }
+}
+
+// Установка среднего балла
+void Students::set_average_ball(float ball)
+{
+    Students::average_ball = ball;
+}
+
+// Получение среднего балла
+float Students::get_average_ball()
+{
+    return Students::average_ball;
+}</code></pre>
+    <p>А в заголовочном файле students.h оставим только прототипы этих методов.</p>
+    <pre class="line-numbers"><code class="language-clike">/* students.h */
+#pragma once /* Защита от двойного подключения заголовочного файла */
+#include &lt;string>
+
+class Students {
+    public:
+        // Установка имени студента
+        void set_name(std::string);
+        // Получение имени студента
+        std::string get_name();
+        // Установка фамилии студента
+        void set_last_name(std::string);
+        // Получение фамилии студента
+        std::string get_last_name();
+        // Установка промежуточных оценок
+        void set_scores(int []);
+        // Установка среднего балла
+        void set_average_ball(float);
+        // Получение среднего балла
+        float get_average_ball();
+
+    private:
+        // Промежуточные оценки
+        int scores[5];
+        // Средний балл
+        float average_ball;
+        // Имя
+        std::string name;
+        // Фамилия
+        std::string last_name;
+};</code></pre>
+    <p>Такой подход называется абстракцией данных — одного из фундаментальных принципов объектно-ориентированного программирования. К примеру, если кто-то другой захочет использовать наш класс в своем коде, ему не обязательно знать, как именно высчитывается средний балл. Он просто будет использовать функцию calculate_average_ball() из второго примера, не вникая в алгоритм ее работы.</p>
+    <p>Над крупными проектами обычно работает несколько программистов. Каждый из них занимается написанием определенной части продукта. В таких масштабах кода, одному человеку практически нереально запомнить, как работает каждая из внутренних функций проекта. В нашей программе, мы используем оператор потокового вывода cout, не задумываясь о том, как он реализован на низком уровне. Кроме того, отделение данных от логики является хорошим тоном программирования.</p>
+    <p>В начале обучения мы говорили о пространствах имен (namespaces). Каждый класс в C++ использует свое пространство имен. Это сделано для того, чтобы избежать конфликтов при именовании переменных и функций. В файле students.cpp мы используем оператор принадлежности :: перед именем каждой функции. Это делается для того, чтобы указать компилятору, что эти функции принадлежат классу Students.</p>
+    <p>При создании объекта, лучше не копировать память для него, а выделять ее в в куче с помощью указателя. И освобождать ее после того, как мы закончили работу с объектом. Реализуем это в нашей программе, немного изменив содержимое файла main.cpp.</p>
+    <pre class="line-numbers"><code class="language-clike">/* main.cpp */
+#include &lt;iostream>
+#include "students.h"
+
+int main()
+{
+    // Выделение памяти для объекта Students
+    Students *student = new Students;
+
+    std::string name;
+    std::string last_name;
+
+    // Ввод имени с клавиатуры
+    std::cout << "Name: ";
+    getline(std::cin, name);
+
+    // Ввод фамилии
+    std::cout << "Last name: ";
+    getline(std::cin, last_name);
+
+    // Сохранение имени и фамилии в объект класса Students
+    student->set_name(name);
+    student->set_last_name(last_name);
+
+    // Оценки
+    int scores[5];
+    // Сумма всех оценок
+    int sum = 0;
+
+    // Ввод промежуточных оценок 
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Score " << i+1 << ": ";
+        std::cin >> scores[i];
+        // суммирование
+        sum += scores[i];
+    }
+    // Сохраняем промежуточные оценки в объект класса Student
+    student->set_scores(scores);
+
+    // Считаем средний балл
+    float average_ball = sum / 5.0;
+    // Сохраняем средний балл в объект класса Students
+    student->set_average_ball(average_ball);
+    // Выводим данные по студенту
+    std::cout << "Average ball for " << student->get_name() << " "
+         << student->get_last_name() << " is "
+         << student->get_average_ball() << std::endl;
+    // Удаление объекта student из памяти
+    delete student; 
+    return 0;
+}</code></pre>
+    <p>При создании статического объекта, для доступа к его методам и свойствам, используют операция прямого обращения — «.» (символ точки). Если же память для объекта выделяется посредством указателя, то для доступа к его методам и свойствам используется оператор косвенного обращения — «->».</p>
+    <p>Конструктор класса — это специальная функция, которая автоматически вызывается сразу после создания объекта этого класса. Он не имеет типа возвращаемого значения и должен называться также, как класс, в котором он находится. По умолчанию, заполним двойками массив с промежуточными оценками студента.</p>
+    <pre class="line-numbers"><code class="language-clike">class Students {
+    public:
+        // Конструктор класса Students
+        Students(int default_score)
+        {
+            for (int i = 0; i < 5; ++i) {
+                scores[i] = default_score;
+            }
+        }
+
+    private:
+        int scores[5];
+};
+
+int main()
+{
+    // Передаем двойку в конструктор
+    Students *student = new Students(2);
+    return 0;
+}
+</code></pre>
+    <p>Мы можем исправить двойки, если ученик будет хорошо себя вести, и вовремя сдавать домашние задания. А на «нет» и суда нет :-)</p>
+    <p>Деструктор класса вызывается при уничтожении объекта. Имя деструктора аналогично имени конструктора, только в начале ставится знак тильды ~. Деструктор не имеет входных параметров.</p>
+    <pre class="line-numbers"><code class="language-clike">#include <iostream>
+
+class Students {
+    public:
+        // Деструктор
+        ~Students()
+        {
+            std::cout << "Memory has been cleaned. Good bye." << std::endl;
+        }
+};
+
+int main()
+{
+    Students *student = new Students;
+    // Уничтожение объекта
+    delete student;
+    return 0;
+}</code></pre>
+    <div class="buttons">
+        <a href="9.html">Назад</a>
+        <a href="11.html">Следующий урок</a>
+      </div>
+        </div>
+    </div>
+    <footer>
+        <p>©2022</p>
+      </footer>
+    </div>
+  </body>
+</html>

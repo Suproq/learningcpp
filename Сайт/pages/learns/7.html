@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Функции</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet"
+      href="prism.css">
+    <script src="../../scripts/prism.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>
+        <ul class="headbut">
+          <li><a href="../../index.html"><div>Главная</div></a></li>
+          <li><a class="active" href="../learns.html"><div>Уроки</div></a></li>
+          <li><a href="../tasks.html"><div>Задачи</div></a></li>
+          <li><a href="../about.html"><div>О нас</div></a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <div style="padding: 1% 3%;">
+            <div class="upbut">
+                <a style="float: left;" href="6.html">Назад</a>
+                <a style="margin-left: auto;" href="8.html">Следующий урок</a>
+            </div>
+            <h1>Урок 7: Функции</h1>
+            <p>Сегодня мы поговорим о функциях в C++. Очень часто в программировании необходимо выполнять одни и те же действия. Например, мы хотим выводить пользователю сообщения об ошибке в разных местах программы, если он ввел неверное значение. без функций это выглядело бы так: </p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{    
+    string valid_pass = "qwerty123";
+    string user_pass;
+    cout << "Введите пароль: ";
+    getline(cin, user_pass);
+    if (user_pass == valid_pass) {
+        cout << "Доступ разрешен." << endl;
+    } else {
+        cout << "Неверный пароль!" << endl;
+    }
+    return 0;    
+}</code></pre>
+            <p>А вот аналогичный пример с функцией:</p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include <string>
+
+using namespace std;
+
+void check_pass (string password)
+{
+    string valid_pass = "qwerty123";
+    if (password == valid_pass) {
+        cout << "Доступ разрешен." << endl;
+    } else {
+        cout << "Неверный пароль!" << endl;
+    }
+}
+
+int main()
+{    
+    string user_pass;
+    cout << "Введите пароль: ";
+    getline (cin, user_pass);
+    check_pass (user_pass);
+    return 0;
+}</code></pre>
+            <p>По сути, после компиляции не будет никакой разницы для процессора, как для первого кода, так и для второго. Но ведь такую проверку пароля мы можем делать в нашей программе довольно много раз. И тогда получается копипаста и код становится нечитаемым. Функции — один из самых важных компонентов языка C++.</p>
+            <ul>
+                <li>Любая функция имеет тип, также, как и любая переменная.</li>
+                <li>Функция может возвращать значение, тип которого в большинстве случаев аналогично типу самой функции.</li>
+                <li>Если функция не возвращает никакого значения, то она должна иметь тип <code class="language-clike">void</code> (такие функции иногда называют процедурами) </li>
+                <li>При объявлении функции, после ее типа должно находиться имя функции и две круглые скобки — открывающая и закрывающая, внутри которых могут находиться один или несколько аргументов функции, которых также может не быть вообще</li>
+                <li>После списка аргументов функции ставится открывающая фигурная скобка, после которой находится само тело функции.</li>
+                <li>В конце тела функции обязательно ставится закрывающая фигурная скобка.</li>
+            </ul>
+            <h4>Пример построения функции</h4>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>     
+using namespace std;
+
+void function_name ()
+{
+    cout << "Hello, world" << endl;
+}
+
+int main()
+{
+    function_name(); // Вызов функции
+    return 0;
+}</code></pre>
+    <p>Перед вами тривиальная программа, Hello, world, только реализованная с использованием функций.</p>
+    <p>Если мы хотим вывести «Hello, world» где-то еще, нам просто нужно вызвать соответствующую функцию. В данном случае это делается так: <code class="language-clike">function_name();</code>. Вызов функции имеет вид имени функции с последующими круглыми скобками. Эти скобки могут быть пустыми, если функция не имеет аргументов. Если же аргументы в самой функции есть, их необходимо указать в круглых скобках.</p>
+    <p>Также существует такое понятие, как параметры функции по умолчанию. Такие параметры можно не указывать при вызове функции, т.к. они примут значение по умолчанию, указанно после знака присваивания после данного параметра и списке всех параметров функции.</p>
+    <p>В предыдущих примерах мы использовали функции типа <code class="language-clike">void</code>, которые не возвращают никакого значения. Как многие уже догадались, оператор <code class="language-clike">return</code> используется для возвращения вычисляемого функцией значения.</p>
+    <p>Рассмотрим пример функции, возвращающей значение на примере проверки пароля.</p>
+    <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include &lt;string>
+
+using namespace std;
+
+string check_pass (string password)
+{
+    string valid_pass = "qwerty123";
+    string error_message;
+    if (password == valid_pass) {
+        error_message = "Доступ разрешен.";
+    } else {
+        error_message = "Неверный пароль!";
+    }
+    return error_message;
+}
+
+int main()
+{    
+    string user_pass;
+    cout << "Введите пароль: ";
+    getline (cin, user_pass);
+    string error_msg = check_pass (user_pass);
+    cout << error_msg << endl;
+    return 0;
+}</code></pre>
+    <p>В данном случае функция <code class="language-clike">check_pass()</code> имеет тип <code class="language-clike">string</code>, следовательно она будет возвращать только значение типа <code class="language-clike">string</code>, иными словами говоря строку. Давайте рассмотрим алгоритм работы этой программы.</p>
+    <p>Самой первой выполняется функция <code class="language-clike">main()</code>, которая должна присутствовать в каждой программе. Теперь мы объявляем переменную <code class="language-clike">user_pass</code> типа <code class="language-clike">string</code>, затем выводим пользователю сообщение «Введите пароль», который после ввода попадает в строку <code class="language-clike">user_pass</code>. А вот дальше начинает работать наша собственная функция <code class="language-clike">check_pass()</code>.</p>
+    <p>В качестве аргумента этой функции передается строка, введенная пользователем.</p>
+    <p>Аргумент функции — это, если сказать простым языком переменные или константы вызывающей функции, которые будет использовать вызываемая функция.</p>
+    <p>При объявлении функций создается формальный параметр, имя которого может отличаться от параметра, передаваемого при вызове этой функции. Но типы формальных параметров и передаваемых функии аргументов в большинстве случаев должны быть аналогичны.</p>
+    <p>После того, как произошел вызов функции <code class="language-clike">check_pass()</code>, начинает работать данная функция. Если функцию нигде не вызвать, то этот код будет проигнорирован программой. Итак, мы передали в качестве аргумента строку, которую ввел пользователь.</p>
+    <p>Теперь эта строка в полном распоряжении функции (хочу обратить Ваше внимание на то, что переменные и константы, объявленные в разных функциях независимы друг от друга, они даже могут иметь одинаковые имена. В следующих уроках я расскажу о том, что такое область видимости, локальные и глобальные переменные).</p>
+    <p>Теперь мы проверяем, правильный ли пароль ввел пользователь или нет. если пользователь ввел правильный пароль, присваиваем переменной <code class="language-clike">error_message</code> соответствующее значение. если нет, то сообщение об ошибке.</p>
+    <p>После этой проверки мы возвращаем переменную <code class="language-clike">error_message</code>. На этом работа нашей функции закончена. А теперь, в функции <code class="language-clike">main()</code>, то значение, которое возвратила наша функция мы присваиваем переменной <code class="language-clike">error_msg</code> и выводим это значение (строку) на экран терминала.</p>
+    <p>Также, можно организовать повторный ввод пароля с помощью рекурсии (о ней мы еще поговорим). Если объяснять вкратце, рекурсия — это когда функция вызывает сама себя. Смотрите еще один пример:</p>
+    <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include &lt;string>
+
+using namespace std;
+
+bool password_is_valid (string password)
+{
+        string valid_pass = "qwerty123";
+        if (valid_pass == password)
+                return true;
+        else
+                return false;
+}
+
+void get_pass ()
+{
+        string user_pass;
+        cout << "Введите пароль: ";
+        getline(cin, user_pass);
+        if (!password_is_valid(user_pass)) {
+                cout << "Неверный пароль!" << endl;
+                get_pass (); // Здесь делаем рекурсию
+        } else {
+                cout << "Доступ разрешен." << endl;
+        }
+}
+
+int main()
+{
+        get_pass ();
+        return 0;
+}</code></pre>
+    <p>Функции очень сильно облегчают работу программисту и намного повышают читаемость и понятность кода, в том числе и для самого разработчика (не удивляйтесь этому, т. к. если вы откроете код, написанный вами полгода назад,не сразу поймете соль, поверьте на слово).</p>
+    <p>После прочтения данной статьи рекомендуется перерешать предыдущие задачи, но с использованием функций.</p>
+    <div class="buttons">
+        <a href="6.html">Назад</a>
+        <a href="8.html">Следующий урок</a>
+      </div>
+        </div>
+    </div>
+    <footer>
+        <p>©2022</p>
+      </footer>
+    </div>
+  </body>
+</html>

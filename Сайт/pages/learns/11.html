@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Классы: конструкторы и деструкторы</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet"
+      href="prism.css">
+    <script src="../../scripts/prism.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>
+        <ul class="headbut">
+          <li><a href="../../index.html"><div>Главная</div></a></li>
+          <li><a class="active" href="../learns.html"><div>Уроки</div></a></li>
+          <li><a href="../tasks.html"><div>Задачи</div></a></li>
+          <li><a href="../about.html"><div>О нас</div></a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <div style="padding: 1% 3%;">
+            <div class="upbut">
+                <a style="float: left;" href="10.html">Назад</a>
+                <a style="margin-left: auto;" href="12.html">Следующий урок</a>
+            </div>
+            <h1>Урок 11: Классы: конструкторы и деструкторы</h1>
+            <p>В этом уроке мы более детально познакомимся с конструкторами и деструкторами класса, а также научимся работать с файлами в потоковом режиме, с помощью библиотеки fstream. Продолжим написание программы учета оценок. </p>
+            <p>Добавим в класс Students конструктор, который будет принимать имя и фамилию ученика, и сохранять эти значения в соответствующих переменных класса.</p>
+            <pre class="line-numbers"><code class="language-clike">// Конструктор Students
+Students::Students(std::string name, std::string last_name)
+{
+    Students::set_name(name);
+    Students::set_last_name(last_name);
+}</code></pre>
+            <p>При создании нового объекта, мы должны передать конструктору имя и фамилию студента. Иначе компиляция программы завершится с ошибкой.</p>
+            <pre class="line-numbers"><code class="language-clike">std::string name = "Василий";
+std::string last_name = "Пупкин";
+
+Students *student = new Students(name, last_name);</code></pre>
+            <p>Теперь добавим прототип конструктора в файл students.h.</p>
+            <pre class="line-numbers"><code class="language-clike">/* students.h */
+#pragma once /* Защита от двойного подключения заголовочного файла */
+#include &lt;string>
+
+class Students {
+    public:
+        // Конструктор класса Students
+        Students(std::string, std::string);
+
+        // Установка имени студента
+        void set_name(std::string);
+        // Получение имени студента
+        std::string get_name();
+
+        // Установка фамилии студента
+        void set_last_name(std::string);
+        // Получение фамилии студента
+        std::string get_last_name();
+
+        // Установка промежуточных оценок
+        void set_scores(int []);
+
+        // Установка среднего балла
+        void set_average_ball(float);
+        // Получение среднего балла
+        float get_average_ball();
+    private:
+        // Промежуточные оценки
+        int scores[5];
+        // Средний балл
+        float average_ball;
+        // Имя
+        std::string name;
+        // Фамилия
+        std::string last_name;
+};</code></pre>
+            <p>В файле students.cpp определим сам конструктор.</p>
+            <pre class="line-numbers"><code class="language-clike">/* students.cpp */
+#include &lt;string>
+#include &lt;fstream>
+#include "students.h"
+
+// Конструктор Students
+Students::Students(std::string name, std::string last_name)
+{
+    Students::set_name(name);
+    Students::set_last_name(last_name);
+}
+
+// Установка имени студента
+void Students::set_name(std::string student_name)
+{
+    Students::name = student_name;
+}
+
+// Получение имени студента
+std::string Students::get_name()
+{
+    return Students::name;
+}
+
+// Установка фамилии студента
+void Students::set_last_name(std::string student_last_name)
+{
+    Students::last_name = student_last_name;
+}
+
+// Получение фамилии студента
+std::string Students::get_last_name()
+{
+    return Students::last_name;
+}
+
+// Установка промежуточных оценок
+void Students::set_scores(int scores[])
+{
+    int sum = 0;
+    for (int i = 0; i < 5; ++i) {
+        Students::scores[i] = scores[i];
+        sum += scores[i];
+    }
+}
+
+// Установка среднего балла
+void Students::set_average_ball(float ball)
+{
+    Students::average_ball = ball;
+}
+
+// Получение среднего балла
+float Students::get_average_ball()
+{
+    return Students::average_ball;
+}
+</code></pre>
+            <p>В main() мы принимаем от пользователя имя и фамилию ученика, и сохраняем их во временных локальных переменных. После этого создаем новый объект класса Students, передавая его конструктору эти переменные.</p>
+            <pre class="line-numbers"><code class="language-clike">/* main.cpp */
+#include &lt;iostream>
+#include "students.h"
+
+int main(int argc, char *argv[])
+{
+    // Локальная переменная, хранящая имя ученика
+    std::string name;
+    // И его фамилию
+    std::string last_name;
+
+    // Ввод имени
+    std::cout << "Name: ";
+    getline(std::cin, name);
+    // И фамилии
+    std::cout << "Last name: ";
+    getline(std::cin, last_name);
+
+    // Передача параметров конструктору
+    Students *student = new Students(name, last_name);
+
+    // Оценки
+    int scores[5];
+    // Сумма всех оценок
+    int sum = 0;
+
+    // Ввод промежуточных оценок 
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Score " << i+1 << ": ";
+        std::cin >> scores[i];
+        // суммирование
+        sum += scores[i];
+    }
+    // Сохраняем промежуточные оценки в объект класса Student
+    student->set_scores(scores);
+
+    // Считаем средний балл
+    float average_ball = sum / 5.0;
+    // Сохраняем средний балл
+    student->set_average_ball(average_ball);
+
+    // Выводим данные по студенту
+    std::cout << "Average ball for " << student->get_name() << " "
+         << student->get_last_name() << " is "
+         << student->get_average_ball() << std::endl;
+    // Удаление объекта student из памяти
+    delete student; 
+    return 0;
+}</code></pre>
+            <p>Чтобы после завершения работы с программой, все данные сохранялись, мы будем записывать их в текстовый файл.</p>
+            <p>Оценки каждого студента будут находится в отдельной строке. Имя и фамилии будут разделяться пробелами. После имени и фамилии ученика ставится еще один пробел, а затем перечисляются все его оценки.</p>
+            <p>Пример файла с оценками:</p>
+            <pre class="line-numbers"><code class="language-clike">Василий Пупкин 5 4 5 3 3
+Иван Сидоров 5 5 3 4 5
+Андрей Иванов 5 3 3 3 3</code></pre>
+            <p>Для работы с файлами мы воспользуемся библиотекой fstream, которая подключается в заголовочном файле с таким же именем.</p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;fstream>
+
+// Запись данных о студенте в файл
+void Students::save()
+{
+    std::ofstream fout("students.txt", std::ios::app);
+
+    fout << Students::get_name() << " " 
+         << Students::get_last_name() << " ";
+
+    for (int i = 0; i < 5; ++i) {
+        fout << Students::scores[i] << " ";
+    }
+
+    fout << std::endl;
+    fout.close();
+}
+</code></pre>
+            <p>Переменная fout — это объект класса ofstream, который находится внутри библиотеки fstream. Класс ofstream используется для записи каких-либо данных во внешний файл. Кстати, у него тоже есть конструктор. Он принимает в качестве параметров имя выходного файла и режим записи.</p>
+            <p>В данном случае, мы используем режим добавления — std::ios:app (англ. append). После завершения работы с файлом, необходимо вызвать метод close() для того, чтобы закрыть файловый дескриптор.</p>
+            <p>Чтобы сохранить оценки студента, мы будем вызывать только что созданный метод save().</p>
+            <pre class="line-numbers"><code class="language-clike">Students student = new Students("Василий", "Пупкин");
+student->save();</code></pre>
+            <p>Логично было бы сохранять все оценки после того, как работа со студентом закончена. Для этого создадим деструктор класса Students, который будет вызывать метод save() перед уничтожением объекта.</p>
+            <pre class="line-numbers"><code class="language-clike">// Деструктор Students
+Students::~Students()
+{
+    Students::save();
+}</code></pre>   
+            <p>Добавим прототипы деструктора и метода save() в students.h.</p>
+            <pre class="line-numbers"><code class="language-clike">/* students.h */
+#pragma once /* Защита от двойного подключения заголовочного файла */
+#include &lt;string>
+
+class Students {
+    public:
+        // Запись данных о студенте в файл
+        void save();
+        // Деструктор класса Students
+        ~Students();
+
+        // Конструктор класса Students
+        Students(std::string, std::string);
+        // Установка имени студента
+        void set_name(std::string);
+        // Получение имени студента
+        std::string get_name();
+
+        // Установка фамилии студента
+        void set_last_name(std::string);
+        // Получение фамилии студента
+        std::string get_last_name();
+
+        // Установка промежуточных оценок
+        void set_scores(int []);
+        // Получение массива с промежуточными оценками
+        int *get_scores();
+        // Получение строки с промежуточными оценками
+        std::string get_scores_str(char);
+
+        // Установка среднего балла
+        void set_average_ball(float);
+        // Получение среднего балла
+        float get_average_ball();
+    private:
+        // Промежуточные оценки
+        int scores[5];
+        // Средний балл
+        float average_ball;
+        // Имя
+        std::string name;
+        // Фамилия
+        std::string last_name;
+};
+</code></pre>  
+            <p>И определим эти функции в students.cpp.</p>
+            <pre class="line-numbers"><code class="language-clike">/* students.cpp */
+#include &lt;string>
+#include &lt;fstream>
+
+#include "students.h"
+
+// Деструктор Students
+Students::~Students()
+{
+    Students::save();
+}
+
+// Запись данных о студенте в файл
+void Students::save()
+{
+    std::ofstream fout("students.txt", std::ios::app);
+
+    fout << Students::get_name() << " " 
+         << Students::get_last_name() << " ";
+
+    for (int i = 0; i < 5; ++i) {
+        fout << Students::scores[i] << " ";
+    }
+
+    fout << std::endl;
+    fout.close();
+}
+
+// Конструктор Students
+Students::Students(std::string name, std::string last_name)
+{
+    Students::set_name(name);
+    Students::set_last_name(last_name);
+}
+// Установка имени студента
+void Students::set_name(std::string student_name)
+{
+    Students::name = student_name;
+}
+
+// Получение имени студента
+std::string Students::get_name()
+{
+    return Students::name;
+}
+
+// Установка фамилии студента
+void Students::set_last_name(std::string student_last_name)
+{
+    Students::last_name = student_last_name;
+}
+
+// Получение фамилии студента
+std::string Students::get_last_name()
+{
+    return Students::last_name;
+}
+
+// Установка промежуточных оценок
+void Students::set_scores(int scores[])
+{
+    int sum = 0;
+    for (int i = 0; i < 5; ++i) {
+        Students::scores[i] = scores[i];
+        sum += scores[i];
+    }
+
+}
+
+// Получение массива с промежуточными оценками
+int *Students::get_scores()
+{
+    return Students::scores;
+}
+
+// Установка среднего балла
+void Students::set_average_ball(float ball)
+{
+    Students::average_ball = ball;
+}
+
+// Получение среднего балла
+float Students::get_average_ball()
+{
+    return Students::average_ball;
+}</code></pre>   
+            <p>Содержимое main.cpp останется прежним. Скомпилируйте и запустите программу. Перед тем, как приложение завершит свою работу, в директории с исполняемым файлом будет создан новый текстовый файл с оценками — students.txt.</p>
+            <div class="buttons">
+                <a href="10.html">Назад</a>
+                <a href="12.html">Следующий урок</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>©2022</p>
+    </footer>
+    </div>
+  </body>
+</html>

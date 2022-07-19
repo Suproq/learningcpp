@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Урок 2: Hello World</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet"
+      href="prism.css">
+    <script src="../../scripts/prism.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>
+        <ul class="headbut">
+          <li><a href="../../index.html"><div>Главная</div></a></li>
+          <li><a class="active" href="../learns.html"><div>Уроки</div></a></li>
+          <li><a href="../tasks.html"><div>Задачи</div></a></li>
+          <li><a href="../about.html"><div>О нас</div></a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <div style="padding: 1% 3%;">
+            <div class="upbut">
+                <a style="float: left;" href="1.html">Назад</a>
+                <a style="margin-left: auto;" href="3.html">Следующий урок</a>
+            </div>
+            <h1>Урок 2: Первая программа</h1>
+            <p>Создайте новый проект в вашей ide и наберите код:</p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream&gt;
+using namespace std;
+
+int main() 
+{ 
+    cout &lt;&lt; "Hello, world!" &lt;&lt; endl;
+    return 0; 
+}</code></pre>
+    <p>Директива <code class="language-clike">#include</code> используется для подключения других файлов в код. 
+        Строка <code class="language-clike">#include &lt;iostream&gt;</code>, будет заменена содержимым файла «iostream.h», который находится в стандартной библиотеке языка и отвечает за ввод и вывод данных на экран.</p>
+    <p>Содержимое следующей строки <code class="language-clike">using namespace std;</code> указывает на то, что мы используем по умолчанию пространство имен с названием «std». 
+        Все то, что находится внутри фигурных скобок функции <code class="language-clike">int main() {}</code> будет автоматически выполняться после запуска программы.</p>
+    <p>Строка <code class="language-clike">cout &lt;&lt; "Hello, world!" &lt;&lt; endl;</code> говорит программе выводить сообщение с текстом «Hello, world» на экран.</p>
+    <p>Оператор <code class="language-clike">cout</code> предназначен для вывода текста на экран командной строки. После него ставятся две угловые кавычки (&lt;&lt;). 
+        Далее идет текст, который должен выводиться. Он помещается в двойные кавычки. Оператор <code class="language-clike">endl</code> переводит строку на уровень ниже.</p>
+    <p>Если в процессе выполнения произойдет какой-либо сбой, то будет сгенерирован код ошибки, отличный от нуля. Если же работа программы завершилась без сбоев, то код ошибки будет равен нулю. 
+        Команда <code class="language-clike">return 0</code> необходима для того, чтобы передать операционной системе сообщение об удачном завершении программы.</p>
+    <p>— В конце каждой команды ставится точка с запятой.</p>
+    <p>Теперь скомпилируйте и запустите программу.</p>
+    <p>Если программа собралась с первого раза, то хорошо. Если компилятор говорит о наличии ошибок, значит вы что-то сделали неправильно. Прочитайте текст ошибки и попробуйте ее исправить своими силами.</p>
+
+    <div class="buttons">
+        <a href="1.html">Назад</a>
+        <a href="3.html">Следующий урок</a>
+      </div>
+        </div>
+    </div>
+    <footer>
+        <p>©2022</p>
+      </footer>
+    </div>
+  </body>
+</html>

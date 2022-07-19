@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Урок 12: Векторы</title>
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet"
+      href="prism.css">
+    <script src="../../scripts/prism.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>
+        <ul class="headbut">
+          <li><a href="../../index.html"><div>Главная</div></a></li>
+          <li><a class="active" href="../learns.html"><div>Уроки</div></a></li>
+          <li><a href="../tasks.html"><div>Задачи</div></a></li>
+          <li><a href="../about.html"><div>О нас</div></a></li>
+        </ul>
+    </header>
+    <div class="content">
+        <div style="padding: 1% 3%;">
+            <div class="upbut">
+                <a style="float: left;" href="11.html">Назад</a>
+                <a style="margin-left: auto;" href="../tasks.html">К задачам</a>
+            </div>
+            <h1>Урок 12: Векторы</h1>
+            <p>Вектор в C++ — это замена стандартному динамическому массиву, память для которого выделяется вручную, с помощью оператора new.</p>
+            <p>Разработчики языка рекомендуют в использовать именно vector вместо ручного выделения памяти для массива. Это позволяет избежать утечек памяти и облегчает работу программисту.</p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include &lt;vector>
+
+int main()
+{
+    // Вектор из 10 элементов типа int
+    std::vector<int> v1(10);
+
+    // Вектор из элементов типа float
+    // С неопределенным размером
+    std::vector<float> v2;
+
+    // Вектор, состоящий из 10 элементов типа int
+    // По умолчанию все элементы заполняются нулями
+    std::vector<int> v3(10, 0);
+
+    return 0;
+}</code></pre>  
+            <p>Создадим вектор, в котором будет содержаться произвольное количество фамилий студентов.</p>
+            <pre class="line-numbers"><code class="language-clike">#include &lt;iostream>
+#include &lt;vector>
+#include &lt;string>
+
+int main()
+{
+    // Поддержка кириллицы в консоли Windows
+    setlocale(LC_ALL, "");
+
+    // Создание вектора из строк
+    std::vector<std::string> students;
+
+    // Буфер для ввода фамилии студента
+    std::string buffer = "";
+
+    std::cout << "Вводите фамилии студентов. "
+              << "По окончание ввода введите пустую строку" << std::endl;
+
+    do {
+        std::getline(std::cin, buffer);
+        if (buffer.size() > 0) {
+            // Добавление элемента в конец вектора
+            students.push_back(buffer);
+        }
+    } while (buffer != "");
+
+
+    // Сохраняем количество элементов вектора 
+    unsigned int vector_size = students.size();
+
+    // Вывод заполненного вектора на экран
+    std::cout << "Ваш вектор." << std::endl;
+    for (int i = 0; i < vector_size; i++) {
+        std::cout << students[i] << std::endl; 
+    }
+
+    return 0;
+}</code></pre>  
+            <p>Запустите программу и проверьте, как она работает.</p>
+            <p>Для добавления нового элемента в конец вектора используется метод push_back(). Количество элементов определяется методом size(). Для доступа к элементам вектора можно использовать квадратные скобки [], также, как и для обычных массивов.</p>
+            <ul>
+                <li>pop_back() — удалить последний элемент</li>
+                <li>clear() — удалить все элементы вектора  </li>
+                <li>empty() — проверить вектор на пустоту</li>
+            </ul>
+            <h4>Вероятно, это был последний урок на этом сайте.</h4>
+            <p>Но если вы заинтерисовались языком C++ и хотите продолжать обучение дальше, то мы рекомендуем прочитать книгу Роберта Лафоре "Объектно-ориентированное программирование в C++". Очень полезная книга, если вы собираетесь делать какие-то проекты в C++, а тем более станете разработчиком C++, то эта книга обязательно должна быть у вас в библиотеке, т.к. информацию по многим специфичным вещам в интернете найти очень тяжело.</p>
+            <a href="https://www.chitai-gorod.ru/catalog/book/247316/?ysclid=l5rbtbdejq323698991"><img class="bookimg" src="../../images/book.jpg"></a>
+            <div class="buttons">
+                <a href="11.html">Назад</a>
+                <a href="../tasks.html">К задачам</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>©2022</p>
+    </footer>
+    </div>
+  </body>
+</html>
